@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <algorithm>
 
 typedef std::vector<std::string> Strings;
 typedef std::map<char, Strings> Text;
@@ -24,19 +25,29 @@ int main(int argc, char* argv[])
 	{
 		text[line[0]].push_back(line);
 	}
+	in.close();
 
 	for (auto& it : text)
 	{
-		std::cout << "Letter: " << it.first << "\n";
-
-		for (auto& it2 : it.second)
-		{
-			std::cout << it2 << "\n";
-		}
-		std::cout << "\n";
+		std::sort(it.second.begin(), it.second.end());
 	}
 
-	in.close();
+	char symbol;
+	std::cout << "Enter symbol: ";
+	std::cin >> symbol;
+
+	if (text.find(symbol) == text.end())
+	{
+		std::cout << "There are no lines starting with this character\n";
+	}
+	else
+	{
+		std::cout << "Strings start with " << symbol << ":\n";
+		for (auto& it : text[symbol])
+		{
+			std::cout << it << "\n";
+		}
+	}
 
 	return 0;
 }
